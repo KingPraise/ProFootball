@@ -20,6 +20,68 @@ A Node.js backend for a real-time football match center. Provides REST APIs, rea
 ## Architecture
 - `src/api/` — REST API routes & server
 - `src/realtime/` — WebSocket server & handlers
+
+## Setup Instructions
+
+1. **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-org/ProFootball.git
+    cd ProFootball
+    npm install
+    ```
+2. **Configure environment:**
+    - Copy `.env.example` to `.env` and fill in Supabase and Redis credentials.
+    - Ensure Supabase and Redis are running and accessible.
+3. **Start the server:**
+    - Development: `npm run dev`
+    - Production: `npm start`
+    - The match simulator starts automatically; configure via environment variables.
+
+## API Documentation
+
+### REST Endpoints
+
+- **Get all matches:**  
+  `GET /api/matches`
+- **Get match by ID:**  
+  `GET /api/matches/:id`
+- **Stream match events:**  
+  `GET /api/matches/:id/events/stream`  
+  (Server-Sent Events for real-time updates)
+
+### Real-time Features
+
+- **WebSocket:**  
+  Connect to `ws://localhost:PORT` for live updates and chat.
+- **Join match room:**  
+  Subscribe to a match room for relevant updates and chat.
+- **Chat:**  
+  Send messages (max 300 chars, no empty, 1 msg/sec/user). Typing indicators and join/leave notifications supported.
+
+### Response Format
+
+All API responses follow:
+```json
+{ "success": true, "data": { ... }, "error": null }
+```
+
+## Architecture Decisions
+
+- **Supabase** is used for persistent storage of matches, events, and user data.
+- **Redis** is used for in-memory state, pub/sub, and chat room tracking, enabling horizontal scaling.
+- **WebSocket (socket.io)** provides real-time updates and chat, with room-based messaging for match isolation.
+- **Match Simulator** runs as a background service, generating realistic football events for multiple matches.
+- **Consistent error handling** and input validation are enforced across all endpoints and messages.
+- **CORS** is configured for frontend integration.
+
+## Known Limitations
+
+- The simulator supports only 3-5 concurrent matches by default; scaling requires configuration.
+- No built-in authentication or user management—add as needed for production.
+- Rate limiting is basic (1 msg/sec/user for chat); consider more robust solutions for large-scale deployments.
+- Supabase and Redis must be running and accessible for full functionality.
+- The API does not currently support pagination or filtering for match/event lists.
+
 - `src/simulator/` — Match simulation logic
 - `src/services/` — Supabase/Redis integration
 - `src/types/` — Shared types/enums
