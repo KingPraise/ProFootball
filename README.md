@@ -199,10 +199,3 @@ A: Use Redis pub/sub for horizontal scaling. Adjust simulator concurrency via en
 
 ---
 
-## License
-
-MIT
-
----
-
-For more details, see code comments and `.github/copilot-instructions.md`.
