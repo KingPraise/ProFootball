@@ -35,8 +35,7 @@ A Node.js backend for a real-time football match center. Provides REST APIs, rea
 - Supabase project
 - Redis instance
 
----
-See `.github/copilot-instructions.md` for AI agent guidelines.
+
 ## Getting Started
 
 ### 1. Clone & Install
